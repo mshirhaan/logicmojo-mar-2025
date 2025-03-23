@@ -1,3 +1,4 @@
+//Brute force
 class Solution {
     public int maxArea(int[] height) {
         int max = Integer.MIN_VALUE;
@@ -8,5 +9,29 @@ class Solution {
             }
         }
         return max;
+    }
+}
+
+//Optimal
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0, right = height.length-1;
+
+        int ans = Integer.MIN_VALUE;
+
+        while(left<right) {
+            int width = right - left;
+            int tall = Math.min(height[left], height[right]);
+            int area = width*tall;
+
+            ans = Math.max(ans, area);
+
+            if(height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return ans;
     }
 }
