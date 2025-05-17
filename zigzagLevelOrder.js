@@ -23,3 +23,4 @@ function zigzagLevelOrder(root) {
     
     return ans;
 } 
+// Assignment, solve using linked list without reversing
