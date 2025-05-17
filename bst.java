@@ -22,6 +22,7 @@ class BinarySearchTree {
 
         if (root == null) {
             root = newNode;
+            return;
         }
 
         Node current = root;
