@@ -3,6 +3,11 @@
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
 var canFinish = function(numCourses, prerequisites) {
     let map = {}
 
@@ -29,14 +34,22 @@ var canFinish = function(numCourses, prerequisites) {
 
     while(queue.length) {
         let dependency = queue.shift();
-        for(let dependent of map1[dependency]) {
-            let set = map[dependent];
+        for(let key in map) {
+            let set = map[key];
             set.delete(+dependency)
             if(set.size == 0) {
-                queue.push(dependent);
-                delete map[dependent];
+                queue.push(key);
+                delete map[key];
             }
         }
+        // for(let dependent of map1[dependency]) {
+        //     let set = map[dependent];
+        //     set.delete(+dependency)
+        //     if(set.size == 0) {
+        //         queue.push(dependent);
+        //         delete map[dependent];
+        //     }
+        // }
 
     }
 
