@@ -1,0 +1,118 @@
+class Node {
+  isWord = false;
+  bucket = new Array(26);
+}
+
+class Trie {
+  root = new Node();
+
+  insert(word) {
+    let curr = this.root;
+    for (let letter of word) {
+      let index = letter.charCodeAt() - "a".charCodeAt();
+      if (curr.bucket[index] == undefined) {
+        curr.bucket[index] = new Node();
+      }
+      curr = curr.bucket[index];
+    }
+    curr.isWord = true;
+  }
+
+  search(word) {
+    let curr = this.root;
+    for (let letter of word) {
+      let index = letter.charCodeAt() - "a".charCodeAt();
+      if (curr.bucket[index] == undefined) {
+        return false;
+      }
+      curr = curr.bucket[index];
+    }
+    return curr.isWord;
+  }
+
+  startsWith(prefix) {
+    let curr = this.root;
+    for (let letter of prefix) {
+      let index = letter.charCodeAt() - "a".charCodeAt();
+      if (curr.bucket[index] == undefined) {
+        return false;
+      }
+      curr = curr.bucket[index];
+    }
+    return curr;
+  }
+
+  getAllWordsWithPrefix(prefix) {
+    let node = this.startsWith(prefix);
+    if (!node) return [];
+
+    let words = [];
+    if (node.isWord) {
+      words.push(prefix);
+    }
+    helper(prefix, node);
+
+    function helper(prefix, node) {
+      for (let i = 0; i < 26; i++) {
+        if (node.bucket[i]) {
+          let letter = String.fromCharCode(i + "a".charCodeAt());
+          if (node.bucket[i].isWord) {
+            words.push(prefix + letter);
+          }
+          helper(prefix + letter, node.bucket[i]);
+        }
+      }
+    }
+    return words;
+  }
+}
+
+let trie = new Trie();
+
+function addWord() {
+  let word = document.getElementById("insert").value;
+
+  trie.insert(word);
+}
+
+function searchWord() {
+  let word = document.getElementById("search").value;
+  let words = trie.getAllWordsWithPrefix(word);
+
+  console.log(words);
+  let result = document.getElementById("suggestions");
+  result.innerHTML = "";
+  for (let word of words) {
+    let li = document.createElement("li");
+    li.innerText = word;
+    result.appendChild(li);
+  }
+}
+
+
+
+
+
+//HTML for the above
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input placeholder="Insert any word to dictionary" id="insert" />
+    <button onclick="addWord()">Add</button>
+
+    <br />
+    <br /><br />
+    <br />
+
+    <input placeholder="Search any word" id="search" oninput="searchWord()" />
+
+    <div id="suggestions"></div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
