@@ -12,3 +12,18 @@ function climbStairs(n) {
         return count;
     }
 }
+
+//DP
+function climbStairs(n) {
+    if(n<3) return n;
+    let first = 1;
+    let second = 2;
+    let ans;
+
+    for(let i = 3; i<=n; i++) {
+        ans = first + second;
+        first = second
+        second = ans;
+    }
+    return ans
+}
