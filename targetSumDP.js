@@ -1,7 +1,7 @@
-let memo = {}
+
 
 function targetSum(arr, target) {
-
+    let memo = {}
     return helper(0, target, memo);
 
     function helper(index, target, memo) {
